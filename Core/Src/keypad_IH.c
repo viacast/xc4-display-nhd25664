@@ -60,7 +60,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if(fall){
 		if (GPIO_Pin == SET_P_Pin) {
 			//SET
-                                                    			HAL_NVIC_DisableIRQ(IRQ_VECTOR[0].IRQn_p);
+            HAL_NVIC_DisableIRQ(IRQ_VECTOR[0].IRQn_p);
 			HAL_NVIC_ClearPendingIRQ(IRQ_VECTOR[0].IRQn_p);
 			IRQ_VECTOR[0].deb_counter = DEBOUNCE_TIME;
 			monitor_send_string("E");
