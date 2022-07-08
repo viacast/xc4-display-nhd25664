@@ -38,8 +38,10 @@ void Kpd_Irqv_Init(void) {
 	IRQ_VECTOR[5].IRQn_p = RIGHT_P_EXTI_IRQn;
 	IRQ_VECTOR[5].deb_counter = 0;
 }
+/*void SystickCallback(void) {*/
 
-void SystickCallback(void) {
+void HAL_SYSTICK_Callback(void)
+{
 	uint8_t i;
 	for (i = 0; i < 6; i++) {
 		if (IRQ_VECTOR[i].deb_counter == 0) {
