@@ -84,7 +84,6 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   /* USER CODE BEGIN HardFault_IRQn 0 */
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
@@ -184,11 +183,11 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-
+  HAL_SYSTICK_IRQHandler();
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-  HAL_SYSTICK_IRQHandler();
+
   /* USER CODE END SysTick_IRQn 1 */
 }
 

@@ -91,13 +91,20 @@ uint8_t custom_caracter[CUSTOM_CHARACTER_SIZE];
 uint8_t custo_character_index;
 } custom_character_t;
 
+//typedef struct{
+//GPIO_TypeDef *GPIOx;
+//uint16_t pin;
+//uint8_t dir;
+//bool is_init;
+//} gpio_db;
 typedef struct{
-GPIO_TypeDef *GPIOx;
-uint16_t pin;
-uint8_t dir;
-bool is_init;
-} gpio_db;
+	GPIO_TypeDef *porta;
+	uint16_t pin;
+	bool state;
+}LED_t;
 
+void led_t_initializer(void);
+void leds_dealer(uint8_t led_color, bool state);
 uint16_t exp(uint16_t val,uint16_t pot );
 void init_custom_gpio_ports(GPIO_TypeDef *GPIOx, uint16_t pin, uint8_t mode,uint8_t pull);
 void gpio_handler(uint8_t function, uint16_t pin);

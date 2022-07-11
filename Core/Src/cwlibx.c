@@ -20,7 +20,56 @@ extern u8g2_t u8g2;
 extern TIM_HandleTypeDef htim1;
 
 custom_character_t custom_character_db[CUSTOM_CHARACTER_BUFFER_SIZE];
-volatile gpio_db s_pins[4];
+LED_t leds[8];
+//volatile gpio_db s_pins[4];
+
+/**@brief	Deals with the [color] from the led [number] at a given [state]
+ * O usuario passa a cor [Red, Green ou Amber]*, o led [1,2,3,4] e o estado [0 = off, 1 = on]
+ *	para a cor utilizar a letra maiuscula para identifica-la
+ */
+void led_t_initializer(){
+	leds[0].porta = L_1_G_GPIO_Port;
+	leds[0].pin = 	L_1_G_Pin;
+	leds[0].state = 0;
+
+	leds[1].porta = L_1_R_GPIO_Port;
+	leds[1].pin = 	L_1_R_Pin;
+	leds[1].state = 0;
+
+	leds[2].porta = L_2_G_GPIO_Port;
+	leds[2].pin = 	L_2_G_Pin;
+	leds[2].state = 0;
+
+	leds[3].porta = L_2_R_GPIO_Port;
+	leds[3].pin = 	L_2_R_Pin;
+	leds[3].state = 0;
+
+	leds[4].porta = L_3_G_GPIO_Port;
+	leds[4].pin = 	L_3_G_Pin;
+	leds[4].state = 0;
+
+	leds[5].porta = L_3_R_GPIO_Port;
+	leds[5].pin = 	L_3_R_Pin;
+	leds[5].state = 0;
+
+	leds[6].porta = L_4_G_GPIO_Port;
+	leds[6].pin = 	L_4_G_Pin;
+	leds[6].state = 0;
+
+	leds[7].porta = L_4_R_GPIO_Port;
+	leds[7].pin = 	L_4_R_Pin;
+	leds[7].state = 0;
+}
+void leds_dealer(uint8_t led_color, bool state){
+	if(state){
+		leds[led_color].state = GPIO_PIN_SET;
+		HAL_GPIO_WritePin(leds[led_color].porta, leds[led_color].pin, leds[led_color].state);
+	}else{
+		leds[led_color].state = GPIO_PIN_RESET;
+		HAL_GPIO_WritePin(leds[led_color].porta, leds[led_color].pin, leds[led_color].state);
+	}
+
+}
 
 /**@brief	Exponentiate [value] , at the [pot] level
  * eu redefini a funcão de exponenciação manualmente por não poder importar a biblioteca matematica inteira apenas por uma função :D
@@ -34,9 +83,11 @@ uint16_t exp(uint16_t val, uint16_t pot) {
 	}
 	return ans;
 }
+//metodos para usar portas não mapeadas
+/*
 void gpio_custom_init(void) {
-	/* 0  ,   1 ,   2 ,  3  */
-	/*PB12, PB13, PB14, PB15*/
+	 0  ,   1 ,   2 ,  3
+	PB12, PB13, PB14, PB15
 	s_pins[0].GPIOx = GPIOB;
 	s_pins[0].pin = GPIO_PIN_12;
 	s_pins[0].is_init = false;
@@ -64,12 +115,12 @@ void init_custom_gpio_ports(GPIO_TypeDef *GPIOx, uint16_t pin, uint8_t mode,
 	__HAL_RCC_GPIOC_CLK_ENABLE();
 
 	if (mode == GPIO_MODE_OUTPUT_PP) {
-		/*output */
+		output
 		GPIO_InitStruct.Pin = pin;
 		GPIO_InitStruct.Mode = mode;
 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	} else {
-		/*imput */
+		imput
 		GPIO_InitStruct.Pin = pin;
 		GPIO_InitStruct.Mode = mode;
 	}
@@ -133,6 +184,7 @@ void gpio_handler(uint8_t function, uint16_t pin) {
 		}
 	}
 }
+*/
 
 /**@brief	Decode Convert  Expand Rotate Encode
  * Esta função decodifica um caracter em hexadecimal dado, amplifica ele para o tamanho da memoria do novo display, rotaciona ele e recodifica

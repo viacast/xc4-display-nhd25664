@@ -15,6 +15,8 @@
 #include "cwlibx.h"
 #include "usbd_cdc_if.h"
 
+uint8_t txt[15];
+
 //{set,reset,up,down,left,right}
 key_ih IRQ_VECTOR[6];
 
@@ -43,6 +45,8 @@ void Kpd_Irqv_Init(void) {
 void HAL_SYSTICK_Callback(void)
 {
 	uint8_t i;
+	static uint16_t j =0;
+
 	for (i = 0; i < 6; i++) {
 		if (IRQ_VECTOR[i].deb_counter == 0) {
 			HAL_NVIC_ClearPendingIRQ(IRQ_VECTOR[i].IRQn_p);
@@ -50,6 +54,12 @@ void HAL_SYSTICK_Callback(void)
 		} else {
 			IRQ_VECTOR[i].deb_counter--;
 		}
+	}
+	if(++j > 3000){
+		snprintf((char*) txt, 15,
+						"%d,%d % \r\n",ddp[0],ddp[1]);
+				monitor_send_string(txt);
+		j = 0;
 	}
 }
 

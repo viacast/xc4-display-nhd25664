@@ -152,23 +152,33 @@ void monitor_check_cmd(char *cmd, uint32_t size) {
 			put_Ucursor(true,cmd[2], cmd[3],'R');
 		}
 		else if (cmd[1] == LCD_GPO_ON) {
-			gpio_handler(cmd[1], cmd[2]);
+			if(cmd[2]<=12){
+				leds_dealer(cmd[2], 1);
+			}
 		}
 		else if (cmd[1] == LCD_GPO_OFF) {
-			gpio_handler(cmd[1], cmd[2]);
-		}
-		else if (cmd[1] == LCD_SET_CONTRAST) {
-			set_contrast(cmd[2]);
-		}
-		else if (cmd[1] == LCD_READ_GPI) {
-			if (cmd[2] == '4') {
-				snprintf((char*) ans, CMD_BUF_SIZE, "%d.%d V\r\n", ddp[0],
-				ddp[1]);
-				monitor_send_string(ans);
+			if(cmd[2]<=12){
+				leds_dealer(cmd[2], 0);
 			}
-			gpio_handler(cmd[1], cmd[2]);
 		}
-
+//metodos para usar portas não mapeadas
+//		else if (cmd[1] == LCD_GPO_ON) {
+//			gpio_handler(cmd[1], cmd[2]);
+//		}
+//		else if (cmd[1] == LCD_GPO_OFF) {
+//			gpio_handler(cmd[1], cmd[2]);
+//		}
+//		else if (cmd[1] == LCD_READ_GPI) {
+//			if (cmd[2] == '4') {
+//				snprintf((char*) ans, CMD_BUF_SIZE, "%d.%d V\r\n", ddp[0],
+//				ddp[1]);
+//				monitor_send_string(ans);
+//			}
+//			gpio_handler(cmd[1], cmd[2]);
+//		}
+		else if (cmd[1] == LCD_SET_CONTRAST) {
+					set_contrast(cmd[2]);
+				}
 
 	}
 }

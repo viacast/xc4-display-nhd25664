@@ -67,7 +67,7 @@ uint8_t u8x8_byte_4wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
 	return 1;
 }
 void start_app(void){
-
+	led_t_initializer();
 	u8g2_Setup_ssd1322_nhd_256x64_f(&u8g2, U8G2_R2, u8x8_byte_4wire_hw_spi, u8x8_stm32_gpio_and_delay);
 
 	u8g2_InitDisplay(&u8g2);
@@ -101,12 +101,6 @@ void start_app(void){
 
 		u8g2_SetFont(&u8g2, viafont);
 		disp_splash();
-
-//		u8g2_ClearDisplay(&u8g2);
-//		u8g2_DrawBox(&u8g2,0, 0, 256, 64);
-//		u8g2_SendBuffer(&u8g2);
-//		text_insertion_point(0 , 0);
-//		u8g2_SetDrawColor(&u8g2, 0);
 
 		monitor_begin();
 }
